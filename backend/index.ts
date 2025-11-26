@@ -7,6 +7,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { logger } from './middleware/logger';
 import router from './routes';
+import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -19,17 +20,7 @@ app.use(router);
 /**
  * Global error handler.
  */
-app.use(
-  (
-    err: unknown,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): void => {
-    console.error(err);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-);
+app.use(errorHandler);
 
 const PORT = parseInt(process.env.PORT ?? '4000', 10);
 app.listen(PORT, () => {

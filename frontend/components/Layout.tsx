@@ -6,7 +6,7 @@
  */
 import React from 'react';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const Layout: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => (
   <div className="layout">
     {children}
   </div>

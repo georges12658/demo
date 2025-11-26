@@ -4,7 +4,7 @@
  * @module routes
  */
 import { Router, Request, Response } from 'express';
-import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
+import { authenticate, AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
 
@@ -20,7 +20,7 @@ router.get('/', (req: Request, res: Response) => {
  */
 router.get(
   '/protected',
-  authMiddleware,
+  authenticate,
   (req: AuthenticatedRequest, res: Response) => {
     res.json({ message: 'Protected content', user: req.user });
   }
