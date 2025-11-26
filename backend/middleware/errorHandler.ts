@@ -1,16 +1,15 @@
-/**
- * Global error handling middleware for Express.
- *
- * @module errorHandler
- */
 import { Request, Response, NextFunction } from 'express';
 
 export const errorHandler = (
-  err: unknown,
-  _req: Request,
+  err: any,
+  req: Request,
   res: Response,
-  _next: NextFunction
-): void => {
+  next: NextFunction
+) => {
   console.error(err);
-  res.status(500).json({ error: 'Internal Server Error' });
+  const status = err.status || 500;
+  res.status(status).json({
+    message: err.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  });
 };

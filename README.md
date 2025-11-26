@@ -1,63 +1,102 @@
 # Demo Project
 
-A simple full‑stack application built with Next.js (frontend) and Express (backend) using TypeScript.
+A full‑stack application built with Next.js (frontend) and Express + Prisma (backend). It demonstrates a simple user CRUD API, JWT authentication, Docker deployment, and CI/CD pipeline.
 
-## Features
-
-- Next.js 13 for server‑side rendering and routing.
-- Express API with TypeScript.
-- Environment variable management via dotenv.
-- Linting with ESLint and formatting with Prettier.
-- Concurrent development server.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20.x
-- npm
-
-### Installation
+## Project Structure
 
 ```
-git clone https://github.com/your-org/demo.git
-cd demo
-npm install
+demo/
+├─ frontend/          # Next.js frontend
+├─ backend/           # Express API
+├─ prisma/            # Prisma schema
+├─ docker-compose.yml
+├─ .env               # Runtime environment variables
+├─ .env.example       # Example env file
+├─ README.md
+├─ package.json
+└─ ...
 ```
 
-### Running the Application
+## Prerequisites
 
+- Node.js 20+
+- Docker & Docker Compose
+- PostgreSQL (or use the Docker service)
+
+## Setup
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/your-org/demo.git
+   cd demo
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm ci
+   ```
+
+3. **Configure environment**
+
+   Copy `.env.example` to `.env` and adjust values.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Generate Prisma client**
+
+   ```bash
+   npx prisma generate
+   ```
+
+5. **Run locally**
+
+   ```bash
+   npm run dev
+   ```
+
+   - Frontend: <http://localhost:3000>
+   - Backend: <http://localhost:3001> (default port 3001 in `backend/index.ts`)
+
+## Docker
+
+Build and run all services:
+
+```bash
+docker compose up --build
 ```
-npm run dev
-```
 
-This will start both the frontend on `http://localhost:3000` and the backend on `http://localhost:3001`.
+The stack will expose:
 
-### Building for Production
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:3001`
+- PostgreSQL: `localhost:5432`
 
-```
-npm run build
-```
+## Scripts
 
-### Testing
+| Script | Description |
+|--------|-------------|
+| `dev` | Starts both frontend and backend concurrently |
+| `dev:frontend` | Runs Next.js dev server |
+| `dev:backend` | Runs Express dev server with ts-node |
+| `build` | Builds Next.js and compiles backend |
+| `start` | Starts both services in production mode |
+| `lint` | Runs ESLint on all files |
+| `test` | Placeholder for tests (currently no tests) |
 
-```
-npm run test
-```
+## Architecture
 
-## Environment Variables
-
-Create a `.env` file based on `.env.example` and set the required values.
+- **Frontend**: Next.js with TypeScript, global styles, and a simple layout component.
+- **Backend**: Express API with TypeScript, Prisma ORM, JWT authentication, and structured middleware.
+- **Database**: PostgreSQL managed by Prisma.
+- **CI/CD**: GitHub Actions workflow that lints, tests, builds, and deploys the application.
 
 ## Contributing
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m 'Add your feature'`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Open a Pull Request.
-
-Please ensure your code passes linting and tests before submitting.
+Pull requests are welcome. For major changes, open an issue first to discuss.
 
 ## License
 
