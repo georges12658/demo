@@ -1,20 +1,39 @@
+/**
+ * Express application entry point.
+ *
+ * @module server
+ */
 import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
-import { router } from './routes';
+import { logger } from './middleware/logger';
+import router from './routes';
 
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3001;
 
 app.use(express.json());
-app.use('/api', router);
+app.use(logger);
+app.use(router);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+/**
+ * Global error handler.
+ */
+app.use(
+  (
+    err: unknown,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+);
 
+const PORT = parseInt(process.env.PORT ?? '4000', 10);
 app.listen(PORT, () => {
-  console.log(`Backend listening on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
+
+export default app;

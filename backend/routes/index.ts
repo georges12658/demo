@@ -1,9 +1,29 @@
-import { Router } from 'express';
+/**
+ * API routes for the application.
+ *
+ * @module routes
+ */
+import { Router, Request, Response } from 'express';
+import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.send('Hello from backend!');
+/**
+ * Public route that returns a greeting message.
+ */
+router.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'Hello from API' });
 });
 
-export { router };
+/**
+ * Protected route that requires authentication.
+ */
+router.get(
+  '/protected',
+  authMiddleware,
+  (req: AuthenticatedRequest, res: Response) => {
+    res.json({ message: 'Protected content', user: req.user });
+  }
+);
+
+export default router;

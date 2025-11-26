@@ -2,9 +2,9 @@
 
 The Demo Project follows a typical three‑tier architecture:
 
-1. **Frontend** – Built with React (or your preferred framework). It communicates with the backend via RESTful APIs.
-2. **Backend** – Node.js/Express server that handles business logic, data persistence, and authentication.
-3. **Database** – A lightweight SQLite or PostgreSQL instance used by the backend.
+1. **Frontend** — Built with React (or your preferred framework). It communicates with the backend via RESTful APIs.
+2. **Backend** — Node.js/Express server that handles business logic, data persistence, and authentication.
+3. **Database** — A lightweight SQLite or PostgreSQL instance used by the backend.
 
 ## Data Flow
 
