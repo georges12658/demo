@@ -1,17 +1,18 @@
 # Build stage
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY tsconfig.json ./
-COPY backend ./backend
-RUN npx tsc -p backend/tsconfig.json
+COPY package.json package-lock.json* ./
+RUN npm install
+COPY . .
+RUN npm run build:backend
 
-# Production stage
+# Runtime stage
 FROM node:20-alpine
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/backend/dist ./dist
-COPY .env ./
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json* ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/.env ./
+RUN npm install --production
 EXPOSE 3000
 CMD ["node", "dist/index.js"]

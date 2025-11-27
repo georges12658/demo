@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { prisma } from '../db';
+import prisma from '../db';
 
 const router = Router();
 
@@ -26,9 +26,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
     const user = await prisma.user.create({
-      data: { name, email },
+      data: { name, email, password },
     });
     res.status(201).json(user);
   } catch (err) {
@@ -38,10 +38,10 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
     const user = await prisma.user.update({
       where: { id: Number(req.params.id) },
-      data: { name, email },
+      data: { name, email, password },
     });
     res.json(user);
   } catch (err) {

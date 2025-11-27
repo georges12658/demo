@@ -1,4 +1,6 @@
 import morgan from 'morgan';
 import { Request, Response, NextFunction } from 'express';
 
-export const logger = morgan('combined');
+const logger = morgan('combined');
+
+export default logger;

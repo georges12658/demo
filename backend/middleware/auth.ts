@@ -1,20 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  // Skip auth for public routes
-  if (req.path.startsWith('/auth') || req.path === '/health') {
-    return next();
-  }
-
+const auth = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).json({ error: 'Missing Authorization header' });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or invalid Authorization header' });
   }
   const token = authHeader.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ error: 'Missing token' });
-  }
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     (req as any).user = payload;
@@ -23,3 +15,5 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     return res.status(401).json({ error: 'Invalid token' });
   }
 };
+
+export default auth;

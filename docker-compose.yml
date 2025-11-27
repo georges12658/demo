@@ -1,35 +1,41 @@
 version: '3.8'
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
-    depends_on:
-      - backend
-    environment:
-      - NEXT_PUBLIC_API_URL=http://backend:3000
-  backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    ports:
-      - '4000:3000'
-    depends_on:
-      - db
-    environment:
-      - PORT=3000
-      - DB_URL=postgresql://postgres:postgres@db:5432/demo
-      - JWT_SECRET=super_secret_key
-  db:
+  postgres:
     image: postgres:15
-    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: demo
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    environment:
+      PORT: 3000
+      DB_URL: postgres://user:password@postgres:5432/demo
+      JWT_SECRET: super_secret_key
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    command: npm run dev:backend
+
+  frontend:
+    build: ./frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+    depends_on:
+      - backend
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+    command: npm run dev:frontend
+
 volumes:
-  db_data:
+  postgres_data:
