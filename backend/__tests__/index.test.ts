@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import router from '../routes/index';
+import router from '../routes/user';
 import { PrismaClient } from '@prisma/client';
 import errorHandler from '../middleware/errorHandler';
 
