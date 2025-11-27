@@ -1,8 +1,4 @@
-/**
- * Morgan logger middleware for Express.
- *
- * @module logger
- */
 import morgan from 'morgan';
+import { Request, Response, NextFunction } from 'express';
 
 export const logger = morgan('combined');

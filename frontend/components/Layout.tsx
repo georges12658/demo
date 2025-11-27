@@ -10,6 +10,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = React.memo(({ children }
   <div className="layout">
     {children}
   </div>
-);
+));
 
 export default Layout;
