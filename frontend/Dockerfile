@@ -1,17 +1,11 @@
-# Stage 1: Build
-FROM node:20-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 COPY . .
 RUN npm run build
 
-# Stage 2: Production
-FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-RUN npm ci --production
-EXPOSE 3000
-CMD ["npm", "start"]
+FROM nginx:alpine
+COPY --from=builder /app/out /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

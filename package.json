@@ -13,18 +13,24 @@
     "start:backend": "node dist/index.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:backend": "eslint backend/**/*.ts",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet\"",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "next": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "dotenv": "^16.0.3",
+    "dotenv-safe": "^8.2.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "prisma": "^5.0.0",
-    "@prisma/client": "^5.0.0"
+    "@prisma/client": "^5.0.0",
+    "express-rate-limit": "^6.7.0",
+    "bcrypt": "^5.1.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

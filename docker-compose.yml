@@ -1,41 +1,28 @@
-version: '3.8'
+version: "3.8"
 services:
   postgres:
     image: postgres:15
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: demo
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
   backend:
     build: ./backend
-    environment:
-      PORT: 3000
-      DB_URL: postgres://user:password@postgres:5432/demo
-      JWT_SECRET: super_secret_key
+    env_file: .env
     depends_on:
       - postgres
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-    command: npm run dev:backend
-
   frontend:
     build: ./frontend
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:3000
     depends_on:
       - backend
     ports:
-      - "3001:3000"
-    volumes:
-      - .:/app
-    command: npm run dev:frontend
-
+      - "80:80"
 volumes:
-  postgres_data:
+  pgdata:

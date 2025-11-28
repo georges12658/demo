@@ -6,10 +6,12 @@
  */
 import React from 'react';
 
-const Layout: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => (
-  <div className="layout">
-    {children}
-  </div>
-));
+export type LayoutProps = {
+  children: React.ReactNode;
+};
+
+const Layout: React.FC<LayoutProps> = ({ children }) => (
+  <div className="layout">{children}</div>
+);
 
 export default Layout;
