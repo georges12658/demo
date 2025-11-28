@@ -6,7 +6,7 @@ import errorHandler from '../middleware/errorHandler';
 
 const app = express();
 app.use(express.json());
-app.use(router);
+app.use('/users', router);
 app.use(errorHandler);
 
 const prisma = new PrismaClient();

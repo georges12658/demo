@@ -6,6 +6,7 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
   res.status(status).json({
     error: (err as any).message || 'Internal Server Error',
   });
+
 };
 
 export default errorHandler;

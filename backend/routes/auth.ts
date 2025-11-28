@@ -3,8 +3,8 @@ import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const authRouter = Router();
+import { JWT_SECRET } from '../config';
 
 router.post('/register', async (req, res) => {
   const { email, password, name } = req.body;
@@ -40,4 +40,4 @@ router.post('/login', async (req, res) => {
   res.json({ token });
 });
 
-export default router;
+export default authRouter;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '../db';
 
-const router = Router();
+const userRouter = Router();
 
 router.get('/', async (req, res) => {
   const users = await prisma.user.findMany();
@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   const user = await prisma.user.findUnique({ where: { id } });
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json(user);
@@ -31,19 +31,51 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   const { email, password, name } = req.body;
+  const data: any = {};
+  if (email !== undefined) data.email = email;
+  if (password !== undefined) data.password = password;
+  if (name !== undefined) data.name = name;
+  try {
+    const user = await prisma.user.update({
+      where: { id },
+      data,
+    });
+    res.json(user);
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+  const id = parseInt(req.params.id, 10);
+  const { email, password, name } = req.body;
+  const data: any = {};
+  if (email !== undefined) data.email = email;
+  if (password !== undefined) data.password = password;
+  if (name !== undefined) data.name = name;
   const user = await prisma.user.update({
     where: { id },
-    data: { email, password, name },
+    data,
   });
   res.json(user);
 });
 
 router.delete('/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
-  await prisma.user.delete({ where: { id } });
-  res.status(204).send();
+  const id = parseInt(req.params.id, 10);
+  try {
+    await prisma.user.delete({ where: { id } });
+    res.status(204).send();
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+  const id = parseInt(req.params.id, 10);
+  try {
+    await prisma.user.delete({ where: { id } });
+    res.status(204).send();
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
 });
 
-export default router;
+export default userRouter;

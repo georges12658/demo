@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenvSafe from 'dotenv-safe';
 import corsMiddleware from './middleware/cors';
+import { JWT_SECRET } from './config';
 import rateLimiter from './middleware/rateLimiter';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';

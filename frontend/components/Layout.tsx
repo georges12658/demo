@@ -3,14 +3,21 @@
  *
  * @param {React.ReactNode} children - The child elements to render inside the layout.
  * @returns {JSX.Element} The rendered layout.
+ */*
+ * Layout component that wraps page content.
+ *
+ * @param {React.ReactNode} children - The child elements to render inside the layout.
+ * @returns {JSX.Element} The rendered layout.
  */
 import React from 'react';
 
 export type LayoutProps = {
   children: React.ReactNode;
 };
+  children: React.ReactNode;
+};
 
-const Layout = ({ children }: LayoutProps): JSX.Element => (
+const Layout: React.FC<LayoutProps> = ({ children }) => (
   <div className="layout">{children}</div>
 );
 
