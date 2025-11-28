@@ -30,7 +30,8 @@
     "prisma": "^5.0.0",
     "@prisma/client": "^5.0.0",
     "express-rate-limit": "^6.7.0",
-    "bcrypt": "^5.1.0"
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
